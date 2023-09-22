@@ -3,7 +3,7 @@
 # GRAPHDECO research group, https://team.inria.fr/graphdeco
 # All rights reserved.
 #
-# This software is free for non-commercial, research and evaluation use 
+# This software is free for non-commercial, research and evaluation use
 # under the terms of the LICENSE.md file.
 #
 # For inquiries contact  george.drettakis@inria.fr
@@ -25,7 +25,7 @@ class ParamGroup:
                 shorthand = True
                 key = key[1:]
             t = type(value)
-            value = value if not fill_none else None 
+            value = value if not fill_none else None
             if shorthand:
                 if t == bool:
                     group.add_argument("--" + key, ("-" + key[0:1]), default=value, action="store_true")
@@ -44,7 +44,7 @@ class ParamGroup:
                 setattr(group, arg[0], arg[1])
         return group
 
-class ModelParams(ParamGroup): 
+class ModelParams(ParamGroup):
     def __init__(self, parser, sentinel=False):
         self.sh_degree = 3
         self._source_path = ""
@@ -108,4 +108,6 @@ def get_combined_args(parser : ArgumentParser):
     for k,v in vars(args_cmdline).items():
         if v != None:
             merged_dict[k] = v
+        if k == "data_device":
+            merged_dict[k] = "cuda"
     return Namespace(**merged_dict)
